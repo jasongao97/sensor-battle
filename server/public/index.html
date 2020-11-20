@@ -1,0 +1,41 @@
+<!-- Sensor Battle -->
+
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Sensor Battle</title>
+
+    <!-- Favicon from https://favicon.io/emoji-favicons/crossed-swords -->
+    <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png" />
+    <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png" />
+
+    <!-- Google fonts -->
+    <link rel="preconnect" href="https://fonts.gstatic.com" />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Exo+2:ital,wght@1,800&family=Open+Sans:wght@300;700&display=swap"
+      rel="stylesheet"
+    />
+
+    <link rel="stylesheet" type="text/css" href="/style.css" />
+    <script src="/socket.io/socket.io.js"></script>
+  </head>
+  <body>
+    <div id="container">
+      <h1 id="title">Sensor Battle</h1>
+      <h2 id="subtitle">by George, Jason, Minyoung, Rui, Sara</h2>
+
+      <div id="console">
+        <div id="info">
+          <p id="console-title">Loading...</p>
+          <p id="latency"></p>
+        </div>
+
+        <div id="message-box"></div>
+      </div>
+    </div>
+
+    <script src="/script.js"></script>
+  </body>
+</html>

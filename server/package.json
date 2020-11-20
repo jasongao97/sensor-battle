@@ -1,0 +1,16 @@
+{
+  "name": "sensor-battle",
+  "version": "0.0.1",
+  "description": "by George, Jason, Minyoung, Rui, Sara",
+  "main": "server.js",
+  "scripts": {
+    "start": "node server.js"
+  },
+  "author": "",
+  "license": "MIT",
+  "dependencies": {
+    "express": "^4.17.1",
+    "ip": "^1.1.5",
+    "socket.io": "^3.0.3"
+  }
+}
