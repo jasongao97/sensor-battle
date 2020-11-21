@@ -1,12 +1,14 @@
-
 /*
-  Sensor Battle - Controller
+  Sensor Battle RC - Control Over Wifi
+
+  Requires WiFiNINA library and board supported
+  https://www.arduino.cc/en/Reference/WiFiNINA
 
   Arranged from example of WiFiNINA - WifiUdpSendReceiveString
   https://www.arduino.cc/en/Tutorial/LibraryExamples/WiFiNINAWiFiUdpSendReceiveString
 */
 
-//// enter your wifi info here:
+//// Please edit: your WiFi info
 #define WIFI_SSID ""
 #define WIFI_PASS ""
 
@@ -19,7 +21,7 @@ int status = WL_IDLE_STATUS;
 char ssid[] = WIFI_SSID;
 char pass[] = WIFI_PASS;
 
-// Server address & port
+//// Please edit: server address & port
 IPAddress serverAddress(0, 0, 0, 0);
 unsigned int serverPort = 33333;
 unsigned int localPort = 2390;
