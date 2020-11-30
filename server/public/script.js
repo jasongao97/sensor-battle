@@ -68,8 +68,8 @@ socket.on("message", function ({ message }) {
 });
 
 function executeCommand(command) {
-  const pattern = /^(g|j|m|r|s)\.(go|back|left|right|fire)$/;
-  if (!pattern.test(command)) return;
+  const format = /^(g|j|m|r|s)\.(go|back|left|right|fire)$/;
+  if (!format.test(command)) return;
 
   const [player, action] = command.split('.');
   playground.exe(player, action)

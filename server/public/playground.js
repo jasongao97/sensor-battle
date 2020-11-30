@@ -10,9 +10,9 @@ const playground = new p5((p) => {
     p.textSize(14);
     p.textStyle(p.BOLD);
 
-    ["g", "j", "m", "r", "s"].forEach((e) => {
-      cars[e] = new Car(0, 0, e);
-    });
+    // ["g", "j", "m", "r", "s"].forEach((e) => {
+    //   cars[e] = new Car(0, 0, e);
+    // });
   };
 
   p.windowResized = function () {
@@ -25,12 +25,17 @@ const playground = new p5((p) => {
 
     p.translate(p.width / 2, p.height / 2);
 
+    if (!Object.keys(cars).length) {
+      p.text('Send any command to start...', 0, 0)
+    }
+
     for (player in cars) {
       cars[player].draw();
     }
   };
 
   p.exe = function (player, action) {
+    if (!cars[player]) cars[player] = new Car(0, 0, player);
     switch (action) {
       case "go":
         cars[player].y -= p.cos(cars[player].angle) * 2;
@@ -86,7 +91,7 @@ const playground = new p5((p) => {
       // name
       p.fill(0);
       p.noStroke();
-      p.text(this.name.toUpperCase(), 0, 12)
+      p.text(this.name[0].toUpperCase(), 0, 12);
 
       p.pop();
 
