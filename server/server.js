@@ -44,8 +44,9 @@ io.sockets.on("connection", function (socket) {
 
 // UDP
 udpserver.on("message", (msg) => {
-  console.log(`server got: '${msg}'`);
-  io.emit("message", { message: decoder.decode(msg) });
+  const message = decoder.decode(msg).replace(/[\r\n]/, "");
+  console.log(`server got: '${message}'`);
+  io.emit("message", { message });
 });
 
 udpserver.on("listening", () => {

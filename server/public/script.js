@@ -49,7 +49,7 @@ socket.on("tock", function () {
 
   setTimeout(() => {
     updateLatency();
-  }, 200);
+  }, 1000);
 });
 
 // Get current server's IP address
