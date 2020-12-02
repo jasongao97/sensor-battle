@@ -43,10 +43,13 @@ io.sockets.on("connection", function (socket) {
 });
 
 // UDP
-udpserver.on("message", (msg) => {
+udpserver.on("message", (msg, { address, port }) => {
   const message = decoder.decode(msg).replace(/[\r\n]/, "");
-  console.log(`server got: '${message}'`);
-  io.emit("message", { message });
+  if (!message) return;
+
+  address += `:${port}`
+  console.log(`${address} sends: '${message}'`);
+  io.emit("message", { message, address });
 });
 
 udpserver.on("listening", () => {

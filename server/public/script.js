@@ -57,12 +57,26 @@ socket.on("address", function ({ address, port }) {
   serverInfo.innerText = `UDP Server @ ${address}:${port}`;
 });
 
-// Receive UDP messages
-socket.on("message", function ({ message }) {
+// Receive messages
+socket.on("message", function ({ message, address }) {
   if (activeTab === "playground") {
     executeCommand(message);
+  }
+
+  const messages = document.getElementsByClassName("message");
+  if (messages.length && messages[messages.length - 1].innerText === message) {
+    const lastLog = document.getElementsByClassName("head")[messages.length - 1];
+    let badge;
+    if (lastLog.firstChild.nodeName === 'SPAN') {
+      badge = lastLog.firstChild;
+    } else {
+      badge = document.createElement('SPAN');
+      badge.innerText = 1;
+      lastLog.insertBefore(badge, lastLog.firstChild)
+    }
+    badge.innerText = +badge.innerText + 1;
   } else {
-    messageBox.innerHTML += `<p class="message">${message}</p>`;
+    messageBox.innerHTML += `<div class="log"><div class="head"><p class="message">${message}</p></div><p class="address">${address}</p></div>`;
     messageBox.scrollTop = messageBox.scrollHeight;
   }
 });
@@ -71,8 +85,8 @@ function executeCommand(command) {
   const format = /^(g|j|m|r|s)\.(go|back|left|right|fire)$/;
   if (!format.test(command)) return;
 
-  const [player, action] = command.split('.');
-  playground.exe(player, action)
+  const [player, action] = command.split(".");
+  playground.exe(player, action);
 }
 
 function updateLatency() {
