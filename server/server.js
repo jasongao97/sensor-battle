@@ -3,27 +3,22 @@
  */
 
 // Ports for HTTP & UDP Server
-const PORT = process.env.PORT || 3000;
-const UDP_PORT = 33333;
+const WEB_SERVER_PORT = process.env.PORT || 3000;
+const UDP_SERVER_PORT = 33333;
 
-// Cars
-const STOP_TIME = 200;
-const LOCAL_HOST = "127.0.0.1";
+// Control gateway
+const GATEWAY_ADDRESS = "127.0.0.1";
+const GATEWAY_PORT = 30000;
 
+// Mapping
 const cars = [
   {
-    port: 58001,
-    timeout: null,
+    player: 'j',
+  },
+  {
     player: null,
   },
   {
-    port: 58002,
-    timeout: null,
-    player: null,
-  },
-  {
-    port: 58003,
-    timeout: null,
     player: null,
   },
 ];
@@ -46,13 +41,13 @@ const ip = require("ip");
 app.use(express.static("public"));
 
 // Start the HTTP server
-http.listen(PORT, function () {
-  console.log("Your app is listening on port " + PORT);
+http.listen(WEB_SERVER_PORT, function () {
+  console.log("Your app is listening on port " + WEB_SERVER_PORT);
 });
 
 // Socket.io
 io.sockets.on("connection", function (socket) {
-  socket.emit("address", { address: ip.address(), port: UDP_PORT });
+  socket.emit("address", { address: ip.address(), port: UDP_SERVER_PORT });
   console.log("We have a new client: " + socket.id);
 
   socket.on("tick", function () {
@@ -69,7 +64,7 @@ udpserver.on("message", (msg, { address, port }) => {
   const message = decoder.decode(msg).replace(/[\r\n]/, "");
   if (!message) return;
 
-  executeCommand(message);
+  forwardCommand(message);
 
   address += `:${port}`;
   console.log(`${address} sends: '${message}'`);
@@ -81,32 +76,18 @@ udpserver.on("listening", () => {
   console.log(`udp server listening on port ${address.port}`);
 });
 
-udpserver.bind(UDP_PORT);
+udpserver.bind(UDP_SERVER_PORT);
 
-function executeCommand(command) {
-  const format = /^(g|j|m|r|s)\.(go|back|left|right|fire)$/;
+function forwardCommand(command) {
+  const format = /^\w+\.(go|back|left|right|fire)$/;
   if (!format.test(command)) return;
 
   const [player, action] = command.split(".");
 
   for (i in cars) {
-    if ((cars[i].player = player)) {
-      const { port, timeout } = cars[i];
-      clearTimeout(timeout);
-
-      if (action === "go") {
-        udpserver.send("w", port, LOCAL_HOST);
-      } else if (action === "back") {
-        udpserver.send("s", port, LOCAL_HOST);
-      } else if (action === "left") {
-        udpserver.send("a", port, LOCAL_HOST);
-      } else if (action === "right") {
-        udpserver.send("d", port, LOCAL_HOST);
-      }
-
-      cars[i].timeout = setTimeout(() => {
-        udpserver.send("0", port, LOCAL_HOST);
-      }, STOP_TIME);
+    if (cars[i].player === player) {
+      // forward the command to the exact car
+      udpserver.send(`${i}.${action}`, GATEWAY_PORT, GATEWAY_ADDRESS);
     }
   }
 }

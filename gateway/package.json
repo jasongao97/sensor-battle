@@ -1,0 +1,12 @@
+{
+  "name": "sensor-battle-gateway",
+  "version": "0.0.1",
+  "description": "by George, Jason, Minyoung, Rui, Sara",
+  "main": "index.js",
+  "scripts": {
+    "start": "node index.js"
+  },
+  "author": "",
+  "license": "MIT",
+  "dependencies": {}
+}
