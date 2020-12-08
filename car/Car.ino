@@ -9,6 +9,7 @@
 #define MOTOR_GPIO_IN2 19
 #define MOTOR_GPIO_IN3 22
 #define MOTOR_GPIO_IN4 23
+#define CANNON_GPIO 16
 
 //// Please edit: your WiFi info
 #define WIFI_SSID ""
@@ -20,15 +21,17 @@ char pass[] = WIFI_PASS;
 AsyncUDP udp;
 
 ESP32MotorControl motorControl = ESP32MotorControl();
-int speed = 30;
-int turningSpeed = 25;
+int speed = 40;
+int turningSpeed = 30;
 
-unsigned long lastCommandTime = 0;
+unsigned long lastFire = 0;
+unsigned long fireTimeout = 200;
 
 void setup() {
   WRITE_PERI_REG(RTC_CNTL_BROWN_OUT_REG, 0); //disable brownout detector
 
   pinMode(LED_BUILTIN, OUTPUT);
+  pinMode(CANNON_GPIO, OUTPUT);
   Serial.begin(115200);
 
   WiFi.disconnect(true);
@@ -45,7 +48,11 @@ void setup() {
   listenUDP();
 }
 
-void loop() {}
+void loop() {
+  if (millis() - lastFire > fireTimeout) {
+    digitalWrite(CANNON_GPIO, LOW);
+  }
+}
 
 void listenUDP() {
   if (udp.listen(12580)) {
@@ -71,6 +78,9 @@ void listenUDP() {
         motorControl.motorForward(0, turningSpeed);
       } else if (action == '0') {
         motorControl.motorsStop();
+      } else if (action == 'f' && millis() - lastFire > fireTimeout) {
+        digitalWrite(CANNON_GPIO, HIGH);
+        lastFire = millis();
       }
     });
   }

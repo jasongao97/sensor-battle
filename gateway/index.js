@@ -56,6 +56,8 @@ function executeCommand(command) {
     server.send("a", CAR_CONTROL_PORT, address);
   } else if (action === "right") {
     server.send("d", CAR_CONTROL_PORT, address);
+  } else if (action === "fire") {
+    server.send("f", CAR_CONTROL_PORT, address);
   }
 
   cars[car].timeout = setTimeout(() => {
