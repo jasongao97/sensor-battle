@@ -1,4 +1,4 @@
-<!-- Sensor Battle Test Platform -->
+<!-- Sensor Battle -->
 <!-- Made with P5.js and Socket.io -->
 
 <!DOCTYPE html>
@@ -19,36 +19,53 @@
       rel="stylesheet"
     />
 
-    <link rel="stylesheet" type="text/css" href="/style.css" />
-    
-    <script src="https://cdn.jsdelivr.net/npm/p5@1.1.9/lib/p5.js"></script>
+    <link rel="stylesheet" type="text/css" href="/common.css" />
+    <link rel="stylesheet" type="text/css" href="style.css" />
+
     <script src="/socket.io/socket.io.js"></script>
   </head>
   <body>
     <div id="container">
       <h1 id="title">Sensor Battle</h1>
-      <h2 id="subtitle">by George, Jason, Minyoung, Rui, Sara</h2>
-      
+      <h2 id="subtitle"><strong>Home</strong> | <a href="/tools/">Tools</a></h2>
 
-      <div id="console">
-        <div id="top-bar">
-          <div id="tabs">
-            <div id="tab-c" class="tab active">Console</div>
-            <div id="tab-p" class="tab">Playground</div>
+      <main>
+        <!-- <div id="stream"></div> -->
+
+        <div id="side">
+          <div id="welcome">
+            <div class="field">
+              <label class="label">Name</label>
+              <input
+                id="name-input"
+                class="input"
+                type="text"
+                placeholder="e.g John"
+              />
+            </div>
+            <button id="join-button">Join</button>
+          </div>
+
+          <div id="control-bar" style="display: none">
+            <div id="equipment-list"></div>
+
+            <div id="status">
+              <h1 id="status-title"></h1>
+              <p id="status-subtitle">Sorry, All cars are currently occupied.</p>
+              <button id="release-button" style="display: none">Release my position</button>
+            </div>
+
+            <div id="instruction" style="display: none">
+              <p>
+                <strong>WASD</strong> or <strong>↑↓←→</strong> to move & rotate
+              </p>
+              <p><strong>Space</strong> to fire</p>
+            </div>
           </div>
         </div>
-
-        <div id="message-box"></div>
-        <div id="playground" style="display: none;"></div>
-
-        <div id="status-bar">
-          <p id="server-info">Loading...</p>
-          <p id="latency"></p>
-        </div>
-      </div>
+      </main>
     </div>
 
-    <script src="playground.js"></script>
-    <script src="/script.js"></script>
+    <script src="script.js"></script>
   </body>
 </html>

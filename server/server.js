@@ -13,15 +13,20 @@ const GATEWAY_PORT = 30000;
 // Mapping
 const cars = [
   {
-    player: 'j',
+    player: null,
+    locked: false,
   },
   {
     player: null,
+    locked: false,
   },
   {
     player: null,
+    locked: false,
   },
 ];
+
+const users = [];
 
 // For live web app
 const express = require("express");
@@ -54,9 +59,70 @@ io.sockets.on("connection", function (socket) {
     socket.emit("tock");
   });
 
+  socket.on("join", function (name) {
+    if (!name) return;
+    users.push({
+      id: socket.id,
+      name,
+    });
+    const players = cars.map((car) => {
+      if (!car.player) return null;
+      else {
+        const player = users.find((user) => user.id === car.player);
+        if (player) return player.name;
+      }
+    });
+    socket.emit("joinSucceed");
+    socket.emit("status", players);
+  });
+
+  socket.on("requestToOperate", function (index) {
+    if (cars[index].player) return;
+
+    const player = users.find((user) => user.id === socket.id);
+    if (!player) return;
+
+    cars[index].player = player.id;
+
+    socket.emit("permitToOperate", index);
+    updateAllStatus();
+  });
+
+  socket.on("releasePosition", function () {
+    cars.forEach((car) => {
+      if (car.player === socket.id) car.player = null;
+    });
+
+    socket.emit("releaseSucceed");
+    updateAllStatus();
+  });
+
+  socket.on("action", function (action) {
+    forwardCommand(`${socket.id}.${action}`);
+  })
+
   socket.on("disconnect", function () {
     console.log("Client has disconnected " + socket.id);
+    const index = users.findIndex((user) => user.id === socket.id);
+    if (index !== -1) {
+      users.splice(index, 1);
+    }
+    cars.forEach((car) => {
+      if (car.player === socket.id) car.player = null;
+    });
+    updateAllStatus();
   });
+
+  function updateAllStatus() {
+    const players = cars.map((car) => {
+      if (!car.player) return null;
+      else {
+        const player = users.find((user) => user.id === car.player);
+        if (player) return player.name;
+      }
+    });
+    io.emit("status", players);
+  }
 });
 
 // UDP
@@ -79,7 +145,7 @@ udpserver.on("listening", () => {
 udpserver.bind(UDP_SERVER_PORT);
 
 function forwardCommand(command) {
-  const format = /^\w+\.(go|back|left|right|fire)$/;
+  const format = /^[\w_-]+\.(go|back|left|right|fire)$/;
   if (!format.test(command)) return;
 
   const [player, action] = command.split(".");

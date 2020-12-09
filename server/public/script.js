@@ -1,85 +1,123 @@
 /**
- * Sensor Battle - Web Client / Dev Console
+ * /script.js
+ * Sensor Battle - Live Stream / Web Controller
  */
 
 const socket = io.connect();
 
-let timer = 0;
+const names = ["🟪No.1", "🟦No.2", "🟨No.3"];
 
-let activeTab = "console";
+const welcome = document.getElementById("welcome");
+const joinButton = document.getElementById("join-button");
+const nameInput = document.getElementById("name-input");
+const controlBar = document.getElementById("control-bar");
 
-const title = document.getElementById("title");
-const serverInfo = document.getElementById("server-info");
-const latencyIndicator = document.getElementById("latency");
+const equipmentList = document.getElementById("equipment-list");
+const requestButtons = document.getElementsByClassName("request-buttons");
+const releaseButton = document.getElementById("release-button");
 
-const messageBox = document.getElementById("message-box");
-const playgroundBox = document.getElementById("playground");
+const statusTitle = document.getElementById("status-title");
+const statusSubtitle = document.getElementById("status-subtitle");
+const instruction = document.getElementById("instruction");
 
-const tabC = document.getElementById("tab-c");
-const tabP = document.getElementById("tab-p");
+const EquipmentSection = (index, status, requestable) => `
+  <div class="equipment-section">
+    <div class="info">
+      <h1>${names[index]}</h1>
+      <p>${status}</p>
+    </div>
 
-tabC.addEventListener("click", function () {
-  activeTab = "console";
-  tabC.classList.add("active");
-  tabP.classList.remove("active");
-  messageBox.style.display = "block";
-  playgroundBox.style.display = "none";
-});
-tabP.addEventListener("click", function () {
-  activeTab = "playground";
-  tabP.classList.add("active");
-  tabC.classList.remove("active");
-  messageBox.style.display = "none";
-  playgroundBox.style.display = "block";
+    ${
+      requestable && operating === null
+        ? `<button class="request-buttons" onclick="requestToControl(${index})">Request to operate</button>`
+        : ""
+    }
+  </div>
+`;
 
-  playground.resizeCanvas(
-    playgroundBox.clientWidth,
-    playgroundBox.clientHeight
-  );
-});
+let myname = "";
+let joined = false;
+let operating = null;
 
 socket.on("connect", function () {
   console.log("connected");
 });
 
-// Update latency when receive 'tock' event
-socket.on("tock", function () {
-  const latency = new Date() - timer;
-  latencyIndicator.innerHTML = latency + " ms";
-
-  setTimeout(() => {
-    updateLatency();
-  }, 1000);
-});
-
-// Get current server's IP address
-socket.on("address", function ({ address, port }) {
-  serverInfo.innerText = `UDP Server @ ${address}:${port}`;
-});
-
-// Receive messages
-socket.on("message", function ({ message, address }) {
-  if (activeTab === "playground") {
-    executeCommand(message);
+socket.on("joinSucceed", function () {
+  if (!joined) {
+    welcome.style.display = "none";
+    controlBar.style.display = "flex";
+    statusTitle.innerText = `Hi! ${myname}.`;
+    joined = true;
   }
+});
 
-  const messages = document.getElementsByClassName("message");
-  if (messages.length && messages[messages.length - 1].innerText === message) {
-    const lastLog = document.getElementsByClassName("head")[messages.length - 1];
-    let badge;
-    if (lastLog.firstChild.nodeName === 'SPAN') {
-      badge = lastLog.firstChild;
+socket.on("status", function (players) {
+  equipmentList.innerHTML = players
+    .map((player, i) => {
+      return EquipmentSection(
+        i,
+        player ? `controlling by ${player}` : "idle",
+        !player
+      );
+    })
+    .join("");
+
+  if (operating === null) {
+    const isFull = players.reduce((acc, cur) => acc && cur !== null, true);
+    if (isFull) {
+      statusSubtitle.innerText = "Sorry, All cars are currently occupied.";
     } else {
-      badge = document.createElement('SPAN');
-      badge.innerText = 1;
-      lastLog.insertBefore(badge, lastLog.firstChild)
+      statusSubtitle.innerText = "Please select a car and play.";
     }
-    badge.innerText = +badge.innerText + 1;
   } else {
-    messageBox.innerHTML += `<div class="log"><div class="head"><p class="message">${message}</p></div><p class="address">${address}</p></div>`;
-    messageBox.scrollTop = messageBox.scrollHeight;
+    statusSubtitle.innerText = `You are controlling ${names[operating]}`;
   }
 });
+
+socket.on("permitToOperate", function (index) {
+  operating = index;
+  instruction.style.display = "flex";
+  releaseButton.style.display = "block";
+});
+
+socket.on("releaseSucceed", function () {
+  operating = null;
+  instruction.style.display = "none";
+  releaseButton.style.display = "none";
+});
+
+joinButton.addEventListener("click", function () {
+  const name = nameInput.value;
+  myname = name;
+  if (name) {
+    socket.emit("join", name);
+  }
+});
+
+releaseButton.addEventListener("click", function () {
+  socket.emit("releasePosition");
+});
+
+window.addEventListener("keydown", function ({ code }) {
+  if (operating !== null) {
+    const action = codeToAction(code);
+    if (action) socket.emit("action", action);
+  }
+});
+
+function codeToAction(code) {
+  if (code === "ArrowUp" || code === "KeyW") return "go";
+  if (code === "ArrowDown" || code === "KeyS") return "back";
+  if (code === "ArrowLeft" || code === "KeyA") return "left";
+  if (code === "ArrowRight" || code === "KeyD") return "right";
+  if (code === "Space") return "fire"
+  return false;
+}
+
+function requestToControl(index) {
+  socket.emit("requestToOperate", index);
+}
 
 function executeCommand(command) {
   const format = /^(g|j|m|r|s)\.(go|back|left|right|fire)$/;
@@ -88,10 +126,3 @@ function executeCommand(command) {
   const [player, action] = command.split(".");
   playground.exe(player, action);
 }
-
-function updateLatency() {
-  timer = new Date();
-  socket.emit("tick");
-}
-
-updateLatency();

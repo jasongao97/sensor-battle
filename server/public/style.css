@@ -1,144 +1,155 @@
 /* style.css */
 
-* {
-  margin: 0;
-  padding: 0;
-  font-family: "Open Sans", sans-serif;
-}
-
-html {
-  height: 100vh;
-  width: 100vw;
-  display: flex;
-  flex-direction: column;
-}
-
-body {
-  padding: 10vh 6vw;
-  font-size: calc(8px + 0.3vw);
-  overflow: hidden;
-  flex-grow: 1;
+main {
+  margin: 24px 0;
+  width: 100%;
   display: flex;
   flex-direction: row;
   justify-content: center;
-  align-items: center;
+  align-items: stretch;
 }
 
-#container {
-  max-width: 800px;
-  flex-grow: 1;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-}
-
-#title {
-  font-family: "Exo 2", sans-serif;
-  font-size: 5em;
-}
-
-#subtitle {
-  color: #888;
-  padding: 12px;
-  font-size: 1.6em;
-  font-weight: 300;
-}
-
-#console {
-  font-size: 16px;
-  margin: 24px 0;
-  width: 100%;
+#stream {
   height: 60vh;
   border-radius: 10px;
   border: 1px solid #ccc;
   flex-grow: 1;
-  display: flex;
-  flex-direction: column;
-  align-items: stretch;
 }
 
-#console > #top-bar {
-  border-radius: 10px 10px 0 0;
-  background-color: #eee;
-  padding: 0 20px;
+#side {
+  margin-left: 20px;
+  width: 300px;
+  padding: 6px 10px;
+  border-radius: 10px;
+  border: 1px solid #ccc;
   display: flex;
-  flex-direction: row;
+  flex-direction: column;
   justify-content: space-between;
-  align-items: center;
 }
 
-#console > #top-bar > #tabs {
-  display: flex;
-  flex-direction: row;
-}
-
-#console > #top-bar > #tabs > .tab {
-  padding: 16px;
+#welcome {
+  flex-grow: 1;
+  padding: 40px;
   display: flex;
   flex-direction: column;
+  align-items: center;
   justify-content: center;
-  font-weight: bold;
+}
+
+#welcome > .field {
+  display: flex;
+  flex-direction: column;
+}
+
+#welcome > .field > input {
+  margin-top: 6px;
+  padding: 4px 8px;
+}
+
+#welcome > button {
+  margin-top: 10px;
+  outline: none;
+  border: 1px solid #888;
+  border-radius: 3px;
+  padding: 4px 8px;
+}
+
+#welcome > button:hover {
+  background-color: #ccc;
   cursor: pointer;
-  color: #888;
 }
 
-#console > #top-bar > #tabs > .tab:hover {
-  background-color: #fff;
-}
-
-#console > #top-bar > #tabs > .tab.active {
-  background-color: #f8f8f8;
-  color: #000;
-}
-
-#message-box {
+#control-bar {
   flex-grow: 1;
-  overflow-y: scroll;
-}
-
-#message-box > .log {
-  padding: 8px 18px;
-  border-bottom: 1px solid #f5f5f5;
   display: flex;
-  flex-direction: row;
-  justify-content: space-between;
-  align-items: center;
+  flex-direction: column;
 }
 
-#message-box > .log > .head {
-  display: flex;
-  flex-direction: row;
-  align-items: center;
+#equipment-list {
+  padding-bottom: 10px;
+  border-bottom: 1px solid #eee;
 }
 
-#message-box > .log > .head > span {
-  background-color: #ff7070;
-  color: #fff;
-  font-weight: bold;
-  margin-right: 8px;
-  padding: 0 6px;
-  border-radius: 20px;
-  font-size: 12px;
-}
-
-#message-box > .log > .address {
-  font-size: 14px;
-  color: #888;
-}
-
-#playground {
-  flex-grow: 1;
-  overflow: hidden;
-}
-
-#status-bar {
-  background-color: #eee;
-  padding: 10px 20px;
+.equipment-section {
+  padding: 10px;
   display: flex;
   flex-direction: row;
   align-items: center;
   justify-content: space-between;
-  border-radius: 0 0 10px 10px;
+}
+
+.equipment-section > .info {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+}
+
+.equipment-section > .info > h1 {
+  font-size: 20px;
+}
+
+.equipment-section > .info > p {
+  color: #888;
   font-size: 15px;
-  color: #333;
+}
+
+.equipment-section > h1 {
+  font-size: 20px;
+  color: #555;
+}
+
+.equipment-section > button {
+  outline: none;
+  border: 1px solid #888;
+  border-radius: 3px;
+  padding: 4px 8px;
+}
+
+.equipment-section > button:hover {
+  background-color: #ccc;
+  cursor: pointer;
+}
+
+#status {
+  flex-grow: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 20px 10px;
+}
+
+#status > h1 {
+  font-size: 17px;
+}
+
+#status > p {
+  margin-top: 6px;
+  font-size: 15px;
+}
+
+#status > button {
+  margin-top: 12px;
+  outline: none;
+  border: 1px solid #888;
+  border-radius: 3px;
+  padding: 4px 8px;
+}
+
+#status > button:hover {
+  background-color: #ccc;
+  cursor: pointer;
+}
+
+#instruction {
+  width: 100%;
+  padding: 20px 0;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-end;
+  align-items: center;
+  border-top: 1px solid #eee;
+}
+
+#instruction > p {
+  font-size: 15px;
 }

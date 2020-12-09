@@ -1,0 +1,55 @@
+<!-- Sensor Battle Test Platform -->
+<!-- Made with P5.js and Socket.io -->
+
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Sensor Battle Tools</title>
+
+    <!-- Favicon from https://favicon.io/emoji-favicons/crossed-swords -->
+    <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png" />
+    <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png" />
+
+    <!-- Google fonts -->
+    <link rel="preconnect" href="https://fonts.gstatic.com" />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Exo+2:ital,wght@1,800&family=Open+Sans:wght@300;700&display=swap"
+      rel="stylesheet"
+    />
+
+    <link rel="stylesheet" type="text/css" href="/common.css">
+    <link rel="stylesheet" type="text/css" href="style.css" />
+    
+    <script src="https://cdn.jsdelivr.net/npm/p5@1.1.9/lib/p5.js"></script>
+    <script src="/socket.io/socket.io.js"></script>
+  </head>
+  <body>
+    <div id="container">
+      <h1 id="title">Sensor Battle</h1>
+      <h2 id="subtitle"><a href="/">Home</a> | <strong>Tools</strong></h2>
+      
+
+      <div id="console">
+        <div id="top-bar">
+          <div id="tabs">
+            <div id="tab-c" class="tab active">Console</div>
+            <div id="tab-p" class="tab">Playground</div>
+          </div>
+        </div>
+
+        <div id="message-box"></div>
+        <div id="playground" style="display: none;"></div>
+
+        <div id="status-bar">
+          <p id="server-info">Loading...</p>
+          <p id="latency"></p>
+        </div>
+      </div>
+    </div>
+
+    <script src="playground.js"></script>
+    <script src="script.js"></script>
+  </body>
+</html>
