@@ -103,7 +103,15 @@ window.addEventListener("keydown", function ({ code }) {
   if (operating !== null) {
     const action = codeToAction(code);
     if (action) socket.emit("action", action);
+
+    const indicator = document.getElementById(code);
+    if (indicator) indicator.style.color = '#ff7070';
   }
+});
+
+window.addEventListener("keyup", function ({ code }) {
+  const indicator = document.getElementById(code);
+  if (indicator) indicator.style.color = '#000';
 });
 
 function codeToAction(code) {
@@ -111,7 +119,7 @@ function codeToAction(code) {
   if (code === "ArrowDown" || code === "KeyS") return "back";
   if (code === "ArrowLeft" || code === "KeyA") return "left";
   if (code === "ArrowRight" || code === "KeyD") return "right";
-  if (code === "Space") return "fire"
+  if (code === "Space") return "fire";
   return false;
 }
 

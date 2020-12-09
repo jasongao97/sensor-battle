@@ -51,15 +51,32 @@
 
             <div id="status">
               <h1 id="status-title"></h1>
-              <p id="status-subtitle">Sorry, All cars are currently occupied.</p>
-              <button id="release-button" style="display: none">Release my position</button>
+              <p id="status-subtitle">
+                Sorry, All cars are currently occupied.
+              </p>
+              <button id="release-button" style="display: none">
+                Release my position
+              </button>
             </div>
 
             <div id="instruction" style="display: none">
               <p>
-                <strong>WASD</strong> or <strong>↑↓←→</strong> to move & rotate
+                <strong>
+                  <span id="KeyW">W</span>
+                  <span id="KeyA">A</span>
+                  <span id="KeyS">S</span>
+                  <span id="KeyD">D</span>
+                </strong>
+                or
+                <strong>
+                  <span id="ArrowUp">↑</span>
+                  <span id="ArrowDown">↓</span>
+                  <span id="ArrowLeft">←</span>
+                  <span id="ArrowRight">→</span>
+                </strong>
+                to move & rotate
               </p>
-              <p><strong>Space</strong> to fire</p>
+              <p><strong id="Space">Space</strong> to fire</p>
             </div>
           </div>
         </div>
