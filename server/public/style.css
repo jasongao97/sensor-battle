@@ -29,7 +29,7 @@ main {
 
 #welcome {
   flex-grow: 1;
-  padding: 40px;
+  padding: 80px 40px;
   display: flex;
   flex-direction: column;
   align-items: center;

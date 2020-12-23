@@ -10,23 +10,36 @@ const UDP_SERVER_PORT = 33333;
 const GATEWAY_ADDRESS = "127.0.0.1";
 const GATEWAY_PORT = 30000;
 
+// Manage Password
+const MANAGE_PASSWORD = "change-me";
+
 // Mapping
 const cars = [
   {
     player: null,
-    locked: false,
   },
   {
     player: null,
-    locked: false,
   },
   {
     player: null,
-    locked: false,
   },
 ];
 
-const users = [];
+const users = [
+  {
+    id: "s",
+    name: "Yoda B",
+  },
+  {
+    id: "m",
+    name: "Bboki",
+  },
+  {
+    id: "g",
+    name: "Muscle Man",
+  },
+];
 
 // For live web app
 const express = require("express");
@@ -76,6 +89,20 @@ io.sockets.on("connection", function (socket) {
     socket.emit("status", players);
   });
 
+  socket.on("manage", function (password) {
+    if (password !== MANAGE_PASSWORD) return;
+
+    const players = cars.map((car) => {
+      if (!car.player) return null;
+      else {
+        const player = users.find((user) => user.id === car.player);
+        if (player) return player.name;
+      }
+    });
+    socket.emit("loginSucceed");
+    socket.emit("status", players);
+  });
+
   socket.on("requestToOperate", function (index) {
     if (cars[index].player) return;
 
@@ -97,9 +124,18 @@ io.sockets.on("connection", function (socket) {
     updateAllStatus();
   });
 
+  socket.on("switchPosition", function (password, index, next) {
+    if (password !== MANAGE_PASSWORD) return;
+    const nextPlayer = next === "public" ? null : next;
+    if (cars[index].player === nextPlayer) return;
+
+    cars[index].player = nextPlayer;
+    updateAllStatus();
+  });
+
   socket.on("action", function (action) {
     forwardCommand(`${socket.id}.${action}`);
-  })
+  });
 
   socket.on("disconnect", function () {
     console.log("Client has disconnected " + socket.id);

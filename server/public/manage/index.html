@@ -1,0 +1,75 @@
+<!-- Sensor Battle -->
+<!-- Made with P5.js and Socket.io -->
+
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Sensor Battle | Manage</title>
+
+    <!-- Favicon from https://favicon.io/emoji-favicons/crossed-swords -->
+    <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png" />
+    <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png" />
+
+    <!-- Google fonts -->
+    <link rel="preconnect" href="https://fonts.gstatic.com" />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Exo+2:ital,wght@1,800&family=Open+Sans:wght@300;700&display=swap"
+      rel="stylesheet"
+    />
+
+    <link rel="stylesheet" type="text/css" href="/common.css" />
+    <link rel="stylesheet" type="text/css" href="manage.css" />
+
+    <script src="/socket.io/socket.io.js"></script>
+  </head>
+  <body>
+    <div id="container">
+      <h1 id="title">Sensor Battle <span>Manage</span></h1>
+
+      <div id="welcome">
+        <input
+          id="password"
+          type="password"
+          placeholder="password"
+        />
+        <button onclick="login()">Login</button>
+      </div>
+
+      <div id="setting-list">
+        <div class="setting">
+          <label>🟥No.1</label>
+          <select>
+            <option value="public">Public</option>
+            <option value="s">Sara</option>
+            <option value="m">Minyoung</option>
+            <option value="g">George</option>
+          </select>
+          <button onclick="switchPosition(0)">switch</button>
+        </div>
+        <div class="setting">
+          <label>🟦No.2</label>
+          <select>
+            <option value="public">Public</option>
+            <option value="s">Sara</option>
+            <option value="m">Minyoung</option>
+            <option value="g">George</option>
+          </select>
+          <button onclick="switchPosition(1)">switch</button>
+        </div>
+        <div class="setting">
+          <label>🟨No.3</label>
+          <select>
+            <option value="public">Public</option>
+            <option value="s">Sara</option>
+            <option value="m">Minyoung</option>
+            <option value="g">George</option>
+          </select>
+          <button onclick="switchPosition(2)">switch</button>
+        </div>
+      </div>
+
+    <script src="manage.js"></script>
+  </body>
+</html>

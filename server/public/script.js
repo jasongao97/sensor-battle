@@ -5,7 +5,7 @@
 
 const socket = io.connect();
 
-const names = ["🟪No.1", "🟦No.2", "🟨No.3"];
+const names = ["🟥No.1", "🟦No.2", "🟨No.3"];
 
 const welcome = document.getElementById("welcome");
 const joinButton = document.getElementById("join-button");
@@ -47,7 +47,7 @@ socket.on("joinSucceed", function () {
   if (!joined) {
     welcome.style.display = "none";
     controlBar.style.display = "flex";
-    statusTitle.innerText = `Hi! ${myname}.`;
+    statusTitle.innerText = `Hi! ${myname}`;
     joined = true;
   }
 });
