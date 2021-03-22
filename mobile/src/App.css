@@ -1,0 +1,68 @@
+.App {
+  position: fixed;
+  touch-action: none;
+  user-select: none;
+  top: 0;
+  left: 0;
+  overflow: hidden;
+  color: white;
+  width: 100%;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+}
+
+.container {
+  flex: 1;
+  padding: 1.6rem;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+}
+
+.link {
+  text-decoration: none;
+}
+
+.heading {
+  margin: 0;
+  color: #79f95b;
+  line-height: 2.8rem;
+  font-family: "Exo 2", sans-serif;
+  font-style: italic;
+  font-weight: 800;
+}
+
+.info {
+  margin-top: 1.5em;
+  line-height: 1.6rem;
+}
+
+.authors {
+  margin-top: 3em;
+  list-style: none;
+  padding: 0;
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr;
+  row-gap: 0.4em;
+}
+
+.intro {
+  margin-top: 3em;
+  line-height: 1.6rem;
+}
+
+.start-button {
+  color: white;
+  text-decoration: none;
+  font-weight: bold;
+  background-color: #8e32f5;
+  margin: 1em 0;
+  padding: 1em 0;
+  text-align: center;
+  border-radius: 4px;
+}
+
+.start-button:active {
+  background-color: #511e8b;
+}

@@ -1,0 +1,66 @@
+.car-list {
+  list-style: none;
+  padding: 0;
+}
+
+.car-list > li {
+  padding: 1em;
+  background-color: #39404e;
+  border-radius: 4px;
+  margin-top: 1.5em;
+}
+
+.car-list > li.disable {
+  opacity: 50%;
+  background-color: #2f333b;
+}
+
+.car-list h1 {
+  margin: 0;
+  font-size: 1.2rem;
+}
+
+.car-list p {
+  color: rgba(255, 255, 255, 60%);
+  margin: 0.8em 0 0 0;
+}
+
+.control-panel {
+  display: flex;
+  flex-direction: column;
+}
+
+.release-button {
+  color: white;
+  text-decoration: none;
+  font-weight: bold;
+  background-color: #4c566b;
+  margin: 1em 0;
+  padding: 1em 0;
+  text-align: center;
+  border-radius: 4px;
+}
+
+.release-button:active {
+  background-color: #39404e;
+}
+
+.key-pad {
+  margin-bottom: 2em;
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr;
+  row-gap: 1em;
+  column-gap: 1em;
+}
+
+.key-pad > .key {
+  text-align: center;
+  padding: 1em 0;
+  font-size: 1.35rem;
+  background-color: #39404e;
+  border-radius: 4px;
+}
+
+.key-pad > .key:active {
+  background-color: #8e32f5;
+}
