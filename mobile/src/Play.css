@@ -5,14 +5,14 @@
 
 .car-list > li {
   padding: 1em;
-  background-color: #39404e;
+  background-color: #333333;
   border-radius: 4px;
   margin-top: 1.5em;
 }
 
 .car-list > li.disable {
-  opacity: 50%;
-  background-color: #2f333b;
+  opacity: 0.5;
+  /* background-color: #2f333b; */
 }
 
 .car-list h1 {
@@ -34,7 +34,7 @@
   color: white;
   text-decoration: none;
   font-weight: bold;
-  background-color: #4c566b;
+  background-color: #444444;
   margin: 1em 0;
   padding: 1em 0;
   text-align: center;
@@ -42,7 +42,7 @@
 }
 
 .release-button:active {
-  background-color: #39404e;
+  background-color: #333333;
 }
 
 .key-pad {
@@ -57,7 +57,7 @@
   text-align: center;
   padding: 1em 0;
   font-size: 1.35rem;
-  background-color: #39404e;
+  background-color: #333333;
   border-radius: 4px;
 }
 
