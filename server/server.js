@@ -46,6 +46,7 @@ const express = require("express");
 const app = express();
 const http = require("http").createServer(app);
 const io = require("socket.io")(http);
+const path = require("path");
 
 // Setting up a udp server
 const dgram = require("dgram");
@@ -57,6 +58,8 @@ const ip = require("ip");
 
 // Serve static files
 app.use(express.static("public"));
+
+app.get("*", (req, res) => res.sendFile(path.resolve("public", "index.html")));
 
 // Start the HTTP server
 http.listen(WEB_SERVER_PORT, function () {
